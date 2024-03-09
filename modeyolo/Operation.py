@@ -20,11 +20,14 @@ class InitOperation(colorcng):
             with open(os.path.join(self.src, 'data.yaml'), 'r') as f:
                 temp = yaml.safe_load(f)
                 if (os.path.exists(os.path.join(self.src, 'train')) and os.path.isdir(os.path.join(self.src, 'train'))):
-                    temp['train'] = os.path.join(self.dest, 'train', 'images')
+                    temp['train'] = os.path.abspath(
+                        os.path.join(self.dest, 'train', 'images'))
                 if (os.path.exists(os.path.join(self.src, 'test')) and os.path.isdir(os.path.join(self.src, 'test'))):
-                    temp['test'] = os.path.join(self.dest, 'test', 'images')
+                    temp['test'] = os.path.abspath(
+                        os.path.join(self.dest, 'test', 'images'))
                 if (os.path.exists(os.path.join(self.src, 'val')) and os.path.isdir(os.path.join(self.src, 'val'))):
-                    temp['val'] = os.path.join(self.dest, 'val', 'images')
+                    temp['val'] = os.path.abspath(
+                        os.path.join(self.dest, 'val', 'images'))
             with open(os.path.join(self.dest, 'data.yaml'), 'w') as yaml_file:
                 yaml.safe_dump(temp, yaml_file)
     def extenstion_extract(self,file):
