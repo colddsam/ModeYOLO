@@ -3,3 +3,8 @@ tests
 poetry.lock
 pyproject.toml
 dist
+modified_dataset
+dataset
+test.py
+yolov8n.pt
+runs

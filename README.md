@@ -1,7 +1,15 @@
 # ModeYOLO Python Package
 
 ## Introduction
-ModeYOLO is a Python package designed to perform color space transformations on images and facilitate the creation of modified datasets for training deep learning models. The package consists of two main modules: `ColorOperation.py` and `Operation.py`. 
+ModeYOLO is a versatile Python package designed for efficient color space transformations, dataset modification, and YOLO model training. It seamlessly integrates into your workflow, providing solutions for diverse machine learning applications in computer vision.
+
+
+## Dependencies
+ModeYOLO depends on the following libraries:
+- Ultralytics (`ultralytics`)
+- PyTorch (`torch`)
+- os (`os`)
+- opencv-python (`cv2`)
 
 ### Folder Structure
 Before using the package, ensure that your source dataset follows the following folder structure:
@@ -23,6 +31,21 @@ dataset/
 ## ColorOperation Module (`ColorOperation.py`)
 
 ### Class: `colorcng`
+
+#### Color Spaces: 
+Currently we accepting this `['RGB', 'BGR', 'GRAY', 'CrCb', 'LAB', 'HSV']` Color Spaces. Each element in the list corresponds to a specific color space. Here's an explanation of each color space:
+
+1. **RGB (Red, Green, Blue):** The standard color model used in most digital cameras and displays, where each pixel is represented by three values indicating the intensity of red, green, and blue.
+
+2. **BGR (Blue, Green, Red):** Similar to RGB but with the order of color channels reversed. OpenCV, a popular computer vision library, uses BGR as its default color order.
+
+3. **GRAY (Grayscale):** A single-channel color space where each pixel is represented by a single intensity value, typically ranging from black to white.
+
+4. **CrCb:** A component of the YCbCr color space often used in image and video compression. It separates chrominance (color information) from luminance (brightness information).
+
+5. **LAB:** The LAB color space represents colors independently of device-specific characteristics. It consists of three components: L* (luminance), a* (green to red), and b* (blue to yellow).
+
+6. **HSV (Hue, Saturation, Value):** A color space that separates color information into three components: hue (the type of color), saturation (the intensity or vividness of the color), and value (brightness). 
 
 #### Constructor
 ```python
@@ -191,4 +214,70 @@ init_op = InitOperation(target_directory='modified_dataset', src_directory='data
 init_op.reform_dataset()
 ```
 
-This example assumes that the source dataset is structured according to the specified folder structure. Adjust the paths and parameters accordingly based on your dataset structure.
+Certainly! Below is an updated README.md file reflecting the newly added `trainYOLO` submodule. The readme includes information about the new submodule, its purpose, and usage.
+
+
+
+## ModelTrain Module (`ModelTrain.py`)
+### Class: `trainYOLO`
+This submodule facilitates YOLO model training with various pre-trained models. Users can choose from a selection of YOLO models, specify training parameters, and seamlessly integrate it into their workflows.
+
+
+### Pre-trained Models
+The `trainYOLO` submodule supports training with various pre-trained YOLO models. Choose a model by entering the corresponding index when prompted. Here are the available models:
+
+1. `yolov3u.pt`: YOLOv3 with upsampling
+2. `yolov5nu.pt`: YOLOv5 with narrow channels
+3. `yolov5su.pt`: YOLOv5 with small model
+4. `yolov5mu.pt`: YOLOv5 with medium model
+5. `yolov5lu.pt`: YOLOv5 with large model
+6. `yolov5xu.pt`: YOLOv5 with extra-large model
+7. `yolov5n6u.pt`: YOLOv5 with narrow channels and 6x size
+8. `yolov5s6u.pt`: YOLOv5 with small model and 6x size
+9. `yolov5m6u.pt`: YOLOv5 with medium model and 6x size
+10. `yolov5l6u.pt`: YOLOv5 with large model and 6x size
+11. `yolov5x6u.pt`: YOLOv5 with extra-large model and 6x size
+12. `yolov6n.pt`: YOLOv6 with narrow channels
+13. `yolov6s.pt`: YOLOv6 with small model
+14. `yolov6m.pt`: YOLOv6 with medium model
+15. `yolov6l.pt`: YOLOv6 with large model
+16. `yolov6l6.pt`: YOLOv6 with large model and 6x size
+17. `yolov8n.pt`: YOLOv8 with narrow channels
+18. `yolov8s.pt`: YOLOv8 with small model
+19. `yolov8m.pt`: YOLOv8 with medium model
+20. `yolov8l.pt`: YOLOv8 with large model
+21. `yolov8x.pt`: YOLOv8 with extra-large model
+22. `yolov9s.pt`: YOLOv9 with small model
+23. `yolov9m.pt`: YOLOv9 with medium model
+24. `yolov9c.pt`: YOLOv9 with complex model
+25. `yolov9e.pt`: YOLOv9 with extra-large model
+
+Choose a model based on your specific requirements and follow the on-screen instructions during training for optimal results.
+
+
+### Example Usage
+```python
+# Import the trainYOLO class
+from ModeYOLO.ModelTrain import trainYOLO
+
+# Create a trainYOLO object
+yolo_trainer = trainYOLO(target_directory='modified_dataset', src_directory='dataset', mode='all', data_path='./modified_dataset/data.yaml', epochs=1, imgsz=224)
+
+# Train the YOLO model
+yolo_trainer.train()
+
+# Validate the trained model
+yolo_trainer.val()
+```
+
+**Note:** Follow the on-screen instructions to choose a YOLO model for training.
+
+## License
+This project is licensed under the MIT License - see the [LICENSE]('https://github.com/colddsam/ModeYOLO/blob/main/LICENSE') file for details.
+
+## Acknowledgments
+- Mention any contributors or external libraries that inspired or helped with the development of ModeYOLO.
+
+- Feel free to adjust the content as needed and let me know if you have further requirements!
+
+- This example assumes that the source dataset is structured according to the specified folder structure. Adjust the paths and parameters accordingly based on your dataset structure.

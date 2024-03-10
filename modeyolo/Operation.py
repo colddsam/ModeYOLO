@@ -47,7 +47,6 @@ class InitOperation(colorcng):
         os.makedirs(os.path.join(dest_train, 'labels'))
         if (not (os.path.exists(src_train) and os.path.isdir(src_train))):
             print("train dataset not exist!!!")
-            exit()
         else:
             for img in os.listdir(os.path.join(src_train, 'images')):
                 split_img = self.extenstion_extract(file=img)
@@ -73,7 +72,6 @@ class InitOperation(colorcng):
         os.makedirs(os.path.join(dest_test, 'labels'))
         if (not (os.path.exists(src_test) and os.path.isdir(src_test))):
             print("test dataset not exist!!!")
-            exit()
         else:
             for img in os.listdir(os.path.join(src_test, 'images')):
                 split_img = self.extenstion_extract(file=img)
@@ -98,8 +96,7 @@ class InitOperation(colorcng):
         os.makedirs(os.path.join(dest_val, 'images'))
         os.makedirs(os.path.join(dest_val, 'labels'))
         if (not (os.path.exists(src_val) and os.path.isdir(src_val))):
-            print("train dataset not exist!!!")
-            exit()
+            print("val dataset not exist!!!")
         else:
             for img in os.listdir(os.path.join(src_val, 'images')):
                 split_img = self.extenstion_extract(file=img)
