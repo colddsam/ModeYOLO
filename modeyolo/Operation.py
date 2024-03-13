@@ -1,4 +1,5 @@
 from modeyolo.ColorOperation import colorcng
+from tqdm import tqdm
 import os
 import yaml
 
@@ -48,7 +49,8 @@ class InitOperation(colorcng):
         if (not (os.path.exists(src_train) and os.path.isdir(src_train))):
             print("train dataset not exist!!!")
         else:
-            for img in os.listdir(os.path.join(src_train, 'images')):
+            print('training data modification started..')
+            for img in tqdm(os.listdir(os.path.join(src_train, 'images')),ncols=100,desc='training : '):
                 split_img = self.extenstion_extract(file=img)
                 if (os.path.exists(os.path.join(src_train, 'labels', f'{split_img[0]}.txt'))):
                     self.execute(opt='train', file=os.path.join(
@@ -63,6 +65,7 @@ class InitOperation(colorcng):
                     else:
                         with open(os.path.join(dest_train, 'labels', f"{self.mode.upper()}_{split_img[0]}.txt"), 'w') as file:
                             file.write(temp)
+            print('training data modification completed!!')
 
     def start_test(self):
         src_test = os.path.join(self.src, 'test')
@@ -73,7 +76,8 @@ class InitOperation(colorcng):
         if (not (os.path.exists(src_test) and os.path.isdir(src_test))):
             print("test dataset not exist!!!")
         else:
-            for img in os.listdir(os.path.join(src_test, 'images')):
+            print('testing data modification started..')
+            for img in tqdm(os.listdir(os.path.join(src_test, 'images')),ncols=100,desc='testing : '):
                 split_img = self.extenstion_extract(file=img)
                 if (os.path.exists(os.path.join(src_test, 'labels', f'{split_img[0]}.txt'))):
                     self.execute(opt='test', file=os.path.join(
@@ -88,6 +92,7 @@ class InitOperation(colorcng):
                     else:
                         with open(os.path.join(dest_test, 'labels', f"{self.mode.upper()}_{split_img[0]}.txt"), 'w') as file:
                             file.write(temp)
+            print('testing data modification completed!!')
 
     def start_val(self):
         src_val = os.path.join(self.src, 'val')
@@ -98,7 +103,8 @@ class InitOperation(colorcng):
         if (not (os.path.exists(src_val) and os.path.isdir(src_val))):
             print("val dataset not exist!!!")
         else:
-            for img in os.listdir(os.path.join(src_val, 'images')):
+            print('validation data modification started..')
+            for img in tqdm(os.listdir(os.path.join(src_val, 'images')),ncols=100,desc='validation : '):
                 split_img = self.extenstion_extract(file=img)
                 if (os.path.exists(os.path.join(src_val, 'labels', f'{split_img[0]}.txt'))):
                     self.execute(opt='val', file=os.path.join(
@@ -113,7 +119,7 @@ class InitOperation(colorcng):
                     else:
                         with open(os.path.join(dest_val, 'labels', f"{self.mode.upper()}_{split_img[0]}.txt"), 'w') as file:
                             file.write(temp)
-
+            print('validation data modification completed!!')
     def reform_dataset(self):
         self.start_train()
         self.start_test()
