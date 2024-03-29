@@ -4,7 +4,7 @@ import os
 import yaml
 
 
-class InitOperation(colorcng):
+class InitModifier(colorcng):
     def __init__(self, target_directory: str = 'modified_dataset', src_directory: str = 'dataset', mode: str = 'all') -> None:
         self.mode = mode.lower()
         self.dest = os.path.join(target_directory)
@@ -12,7 +12,23 @@ class InitOperation(colorcng):
         super().__init__(path=os.path.join(target_directory), mode=mode)
         if (os.path.exists(self.dest) and os.path.isdir(self.dest)):
             print("target dataset already exist!!!")
-            exit()
+            try:
+                with open(os.path.join(self.dest, 'data.yaml'), 'r') as f:
+                    temp = yaml.safe_load(f)
+                    if (os.path.exists(os.path.join(self.dest, 'train')) and os.path.isdir(os.path.join(self.dest, 'train'))):
+                        temp['train'] = os.path.abspath(
+                            os.path.join(self.dest, 'train', 'images'))
+                    if (os.path.exists(os.path.join(self.dest, 'test')) and os.path.isdir(os.path.join(self.dest, 'test'))):
+                        temp['test'] = os.path.abspath(
+                            os.path.join(self.dest, 'test', 'images'))
+                    if (os.path.exists(os.path.join(self.dest, 'val')) and os.path.isdir(os.path.join(self.dest, 'val'))):
+                        temp['val'] = os.path.abspath(
+                            os.path.join(self.dest, 'val', 'images'))
+                with open(os.path.join(self.dest, 'data.yaml'), 'w') as yaml_file:
+                    yaml.safe_dump(temp, yaml_file)
+                print("file updated!!!")
+            except Exception as e:
+                print(f"there a error occurs : {e}")
         elif (not (os.path.exists(self.src) and os.path.isdir(self.src))):
             print("source dataset not exist!!!")
             exit()

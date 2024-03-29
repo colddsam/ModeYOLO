@@ -151,15 +151,15 @@ def __init__(self, path: str, mode: str = 'all') -> None:
         """
     ```
 
-## Operation Module (`Operation.py`)
+## Dataset Modifier Module (`DatasetModifier.py`)
 
-### Class: `InitOperation`
+### Class: `InitModifier`
 
 #### Constructor
 ```python
 def __init__(self, target_directory: str = 'modified_dataset', src_directory: str = 'dataset', mode: str = 'all') -> None:
     """
-    Initializes the InitOperation object.
+    Initializes the InitModifier object.
 
     Parameters:
     - target_directory: str, path to the target directory.
@@ -204,18 +204,15 @@ def __init__(self, target_directory: str = 'modified_dataset', src_directory: st
 ### Example Usage
 
 ```python
-# Import the InitOperation class
-from ModeYOLO.Operation import InitOperation
+# Import the InitModifier class
+from ModeYOLO.DatasetModifier import InitModifier
 
-# Create an InitOperation object
-init_op = InitOperation(target_directory='modified_dataset', src_directory='dataset', mode='all')
+# Create an InitModifier object
+init_op = InitModifier(target_directory='modified_dataset', src_directory='dataset', mode='all')
 
 # Create the modified dataset
 init_op.reform_dataset()
 ```
-
-Certainly! Below is an updated README.md file reflecting the newly added `trainYOLO` submodule. The readme includes information about the new submodule, its purpose, and usage.
-
 
 
 ## ModelTrain Module (`ModelTrain.py`)

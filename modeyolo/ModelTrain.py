@@ -1,10 +1,11 @@
 from ultralytics import YOLO
-from modeyolo.Operation import InitOperation
+from modeyolo.DatasetModifier import InitModifier
 import os
+import yaml
 
 class trainYOLO:
     
-    def __init__(self, target_directory: str = 'modified_dataset', src_directory: str = 'dataset', mode: str = 'all', data_path: str = './modified_dataset/data.yaml', epochs: int = 1, imgsz: int = 224) -> None:
+    def __init__(self, target_directory: str = 'modified_dataset', src_directory: str = 'dataset', mode: str = 'all', data_path: str = './modified_dataset/data.yaml', epochs: int = 1, imgsz: int = 224,operation:int=-1) -> None:
         models_names = [
             'yolov3u.pt',
             'yolov5nu.pt',
@@ -32,11 +33,13 @@ class trainYOLO:
             'yolov9c.pt',
             'yolov9e.pt'
         ]
-        print('Enter the model name that you want to train\nYou can take refer to out documentation page for more information  about the model')
-        for idx,name in enumerate(models_names):
-            print(f'press {idx} for {name} model')
+        if operation not in range(0,len(models_names)):
+            print('Enter the model name that you want to train\nYou can take refer to out documentation page for more information  about the model')
+            for idx,name in enumerate(models_names):
+                print(f'press {idx} for {name} model')
+            operation=int(input('enter the index : '))
         try:
-            self.model_name=models_names[int(input('enter the index : '))]
+            self.model_name=models_names[operation]
         except Exception as e:
             print(f"operation is not possible due to this error : {e}")
             exit()
@@ -47,8 +50,23 @@ class trainYOLO:
         
         try: 
             if(not os.path.exists(self.data_path)):
-                datasetreform=InitOperation(target_directory=target_directory,src_directory=src_directory,mode=mode)
+                datasetreform=InitModifier(target_directory=target_directory,src_directory=src_directory,mode=mode)
                 datasetreform.reform_dataset()
+            else:
+                with open(os.path.join(target_directory, 'data.yaml'), 'r') as f:
+                    temp = yaml.safe_load(f)
+                    if (os.path.exists(os.path.join(target_directory, 'train')) and os.path.isdir(os.path.join(target_directory, 'train'))):
+                        temp['train'] = os.path.abspath(
+                            os.path.join(target_directory, 'train', 'images'))
+                    if (os.path.exists(os.path.join(target_directory, 'test')) and os.path.isdir(os.path.join(target_directory, 'test'))):
+                        temp['test'] = os.path.abspath(
+                            os.path.join(target_directory, 'test', 'images'))
+                    if (os.path.exists(os.path.join(target_directory, 'val')) and os.path.isdir(os.path.join(target_directory, 'val'))):
+                        temp['val'] = os.path.abspath(
+                            os.path.join(target_directory, 'val', 'images'))
+                with open(os.path.join(target_directory, 'data.yaml'), 'w') as yaml_file:
+                    yaml.safe_dump(temp, yaml_file)
+                print("file updated!!!")
         except Exception as e:
             print(f"their is a error to create the dataset : {e}")
             exit()
